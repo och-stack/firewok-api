@@ -1,8 +1,10 @@
 const express = require("express");
-const path = require("path");
 const { Pool } = require("pg");
+const dotenv = require("dotenv");
 const cors = require("cors");
-require("dotenv").config();
+const path = require("path");
+
+dotenv.config();
 
 const app = express();
 
@@ -11,8 +13,12 @@ app.use(cors());
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
+// Test database connection
 pool.query("SELECT NOW()", (error, result) => {
   if (error) {
     console.log("Database connection failed");
@@ -21,33 +27,12 @@ pool.query("SELECT NOW()", (error, result) => {
   }
 });
 
-const PORT = process.env.PORT || 4000;
-
-app.listen(PORT, () => {
-  console.log(`FireWok API running on port ${PORT}`);
-});
-
+// API documentation
 app.get("/", (req, res) => {
-  res.json({
-    name: "FireWok",
-    slogan: "From Fire to Wok",
-    endpoints: {
-      recipes: {
-        getAll: "GET /recipes",
-        getOne: "GET /recipes/:id",
-        create: "POST /recipes",
-      },
-      users: {
-        getAll: "GET /users",
-        create: "POST /users",
-      },
-      categories: {
-        getAll: "GET /categories",
-      },
-    },
-  });
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
+// GET all recipes
 app.get("/recipes", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -74,6 +59,7 @@ app.get("/recipes", async (req, res) => {
   }
 });
 
+// GET one recipe
 app.get("/recipes/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -84,7 +70,8 @@ app.get("/recipes/:id", async (req, res) => {
       });
     }
 
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       SELECT
         recipes.id,
         recipes.name,
@@ -98,7 +85,9 @@ app.get("/recipes/:id", async (req, res) => {
       JOIN categories
         ON recipes.category_id = categories.id
       WHERE recipes.id = $1;
-    `, [id]);
+      `,
+      [id]
+    );
 
     if (result.rows.length === 0) {
       return res.status(404).json({
@@ -114,6 +103,7 @@ app.get("/recipes/:id", async (req, res) => {
   }
 });
 
+// POST new recipe
 app.post("/recipes", async (req, res) => {
   try {
     const {
@@ -136,28 +126,38 @@ app.post("/recipes", async (req, res) => {
       });
     }
 
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       INSERT INTO recipes
       (name, ingredients, author_id, category_id, instructions)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *;
-    `, [
-      name,
-      ingredients,
-      author_id,
-      category_id,
-      instructions,
-    ]);
+      `,
+      [
+        name,
+        ingredients,
+        author_id,
+        category_id,
+        instructions,
+      ]
+    );
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
+    // Foreign key error
+    if (error.code === "23503") {
+      return res.status(400).json({
+        error: "Author or category does not exist",
+      });
+    }
+
     res.status(500).json({
       error: "Failed to create recipe",
     });
   }
 });
 
-
+// GET all users
 app.get("/users", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -173,6 +173,7 @@ app.get("/users", async (req, res) => {
   }
 });
 
+// POST new user
 app.post("/users", async (req, res) => {
   try {
     const { name, email } = req.body;
@@ -183,20 +184,31 @@ app.post("/users", async (req, res) => {
       });
     }
 
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       INSERT INTO users (name, email)
       VALUES ($1, $2)
       RETURNING *;
-    `, [name, email]);
+      `,
+      [name, email]
+    );
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
+    // Duplicate email error
+    if (error.code === "23505") {
+      return res.status(400).json({
+        error: "Email already exists",
+      });
+    }
+
     res.status(500).json({
       error: "Failed to create user",
     });
   }
 });
 
+// GET all categories
 app.get("/categories", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -210,4 +222,11 @@ app.get("/categories", async (req, res) => {
       error: "Failed to get categories",
     });
   }
+});
+
+// Start server
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, () => {
+  console.log(`FireWok API running on port ${PORT}`);
 });

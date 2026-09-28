@@ -1,1 +1,442 @@
-Express starter
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>API Documentation</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            color: #292929;
+            background: #f8f9fa;
+        }
+
+        h1 {
+            margin-bottom: 40px;
+        }
+
+        section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        h3 {
+            margin-top: 25px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        pre {
+            background: #212529;
+            color: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+
+        .error {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>API Documentation</h1>
+
+
+    <!-- GET ALL RECIPES -->
+    <section>
+        <h2>GET /recipes</h2>
+
+        <p>
+            Get all recipes stored in the database.
+        </p>
+
+        <h3>Request</h3>
+
+        <pre>GET /recipes</pre>
+
+        <p>
+            No request body is required.
+        </p>
+
+        <div class="result">
+            <strong>Expected result:</strong>
+
+            <p>
+                Returns an array containing all recipes.
+            </p>
+        </div>
+
+        <h3>Example Response</h3>
+
+        <pre>[
+  {
+    "id": 1,
+    "name": "FireWok Vegetable Noodles",
+    "ingredients": "Noodles, broccoli, carrot, garlic",
+    "instructions": "Heat the wok, stir fry the garlic and vegetables, then add noodles and toss until cooked.",
+    "author": "Ong Chuu Harn",
+    "category": "Vegetarian"
+  }
+]</pre>
+
+        <div class="error">
+            <strong>Error example — 500:</strong>
+
+            <pre>{
+  "error": "Failed to get recipes"
+}</pre>
+        </div>
+    </section>
+
+
+    <!-- GET ONE RECIPE -->
+    <section>
+        <h2>GET /recipes/:id</h2>
+
+        <p>
+            Get one recipe using its recipe ID.
+        </p>
+
+        <h3>Request</h3>
+
+        <pre>GET /recipes/1</pre>
+
+        <p>
+            Replace <strong>1</strong> with the ID of the recipe you want to retrieve.
+        </p>
+
+        <div class="result">
+            <strong>Expected result:</strong>
+
+            <p>
+                Returns one recipe object.
+            </p>
+        </div>
+
+        <h3>Example Response — 200</h3>
+
+        <pre>{
+  "id": 1,
+  "name": "FireWok Vegetable Noodles",
+  "ingredients": "Noodles, broccoli, carrot, garlic",
+  "instructions": "Heat the wok, stir fry the garlic and vegetables, then add noodles and toss until cooked.",
+  "author": "Ong Chuu Harn",
+  "category": "Vegetarian"
+}</pre>
+
+        <div class="error">
+            <strong>Error example — 400: Invalid ID</strong>
+
+            <pre>GET /recipes/abc</pre>
+
+            <pre>{
+  "error": "Recipe ID must be a number"
+}</pre>
+
+            <strong>Error example — 404: Recipe not found</strong>
+
+            <pre>GET /recipes/99999</pre>
+
+            <pre>{
+  "error": "Recipe not found"
+}</pre>
+
+            <strong>Error example — 500: Database error</strong>
+
+            <pre>{
+  "error": "Failed to get recipe"
+}</pre>
+        </div>
+    </section>
+
+
+    <!-- CREATE RECIPE -->
+    <section>
+        <h2>POST /recipes</h2>
+
+        <p>
+            Create a new recipe and store it in the database.
+        </p>
+
+        <p>
+            The author ID and category ID must already exist in the database.
+        </p>
+
+        <h3>Request</h3>
+
+        <pre>POST /recipes</pre>
+
+        <h3>Request Body</h3>
+
+        <pre>{
+  "name": "FireWok Fried Rice",
+  "ingredients": "Rice, egg, carrot, spring onion",
+  "author_id": 1,
+  "category_id": 1,
+  "instructions": "Heat the wok and fry all ingredients."
+}</pre>
+
+        <div class="result">
+            <strong>Expected result — 201:</strong>
+
+            <p>
+                Returns the newly created recipe.
+            </p>
+        </div>
+
+        <h3>Example Response</h3>
+
+        <pre>{
+  "id": 4,
+  "name": "FireWok Fried Rice",
+  "ingredients": "Rice, egg, carrot, spring onion",
+  "author_id": 1,
+  "category_id": 1,
+  "instructions": "Heat the wok and fry all ingredients."
+}</pre>
+
+        <div class="error">
+            <strong>Error example — 400: Missing fields</strong>
+
+            <pre>POST /recipes
+
+{
+  "name": "FireWok Fried Rice"
+}</pre>
+
+            <pre>{
+  "error": "All recipe fields are required"
+}</pre>
+
+            <strong>Error example — 400: Invalid foreign key</strong>
+
+            <pre>POST /recipes
+
+{
+  "name": "FireWok Fried Rice",
+  "ingredients": "Rice, egg, carrot",
+  "author_id": 999,
+  "category_id": 999,
+  "instructions": "Heat the wok and fry all ingredients."
+}</pre>
+
+            <pre>{
+  "error": "Author or category does not exist"
+}</pre>
+
+            <strong>Error example — 500: Database error</strong>
+
+            <pre>{
+  "error": "Failed to create recipe"
+}</pre>
+        </div>
+    </section>
+
+
+    <!-- GET USERS -->
+    <section>
+        <h2>GET /users</h2>
+
+        <p>
+            Get all users stored in the database.
+        </p>
+
+        <p>
+            Users can be used as recipe authors.
+        </p>
+
+        <h3>Request</h3>
+
+        <pre>GET /users</pre>
+
+        <p>
+            No request body is required.
+        </p>
+
+        <div class="result">
+            <strong>Expected result — 200:</strong>
+
+            <p>
+                Returns an array containing all users.
+            </p>
+        </div>
+
+        <h3>Example Response</h3>
+
+        <pre>[
+  {
+    "id": 1,
+    "name": "Ong Chuu Harn",
+    "email": "chuu@example.com"
+  },
+  {
+    "id": 2,
+    "name": "Amy Tan",
+    "email": "amy@example.com"
+  }
+]</pre>
+
+        <div class="error">
+            <strong>Error example — 500:</strong>
+
+            <pre>{
+  "error": "Failed to get users"
+}</pre>
+        </div>
+    </section>
+
+
+    <!-- CREATE USER -->
+    <section>
+        <h2>POST /users</h2>
+
+        <p>
+            Create a new user.
+        </p>
+
+        <p>
+            The user can then be used as an author when creating a recipe.
+        </p>
+
+        <h3>Request</h3>
+
+        <pre>POST /users</pre>
+
+        <h3>Request Body</h3>
+
+        <pre>{
+  "name": "John",
+  "email": "john@example.com"
+}</pre>
+
+        <div class="result">
+            <strong>Expected result — 201:</strong>
+
+            <p>
+                Returns the newly created user.
+            </p>
+        </div>
+
+        <h3>Example Response</h3>
+
+        <pre>{
+  "id": 4,
+  "name": "John",
+  "email": "john@example.com"
+}</pre>
+
+        <div class="error">
+            <strong>Error example — 400: Missing fields</strong>
+
+            <pre>POST /users
+
+{
+  "name": "John"
+}</pre>
+
+            <pre>{
+  "error": "Name and email are required"
+}</pre>
+
+            <strong>Error example — 400: Duplicate email</strong>
+
+            <pre>POST /users
+
+{
+  "name": "John",
+  "email": "chuu@example.com"
+}</pre>
+
+            <pre>{
+  "error": "Email already exists"
+}</pre>
+
+            <strong>Error example — 500: Database error</strong>
+
+            <pre>{
+  "error": "Failed to create user"
+}</pre>
+        </div>
+    </section>
+
+
+    <!-- GET CATEGORIES -->
+    <section>
+        <h2>GET /categories</h2>
+
+        <p>
+            Get all recipe categories stored in the database.
+        </p>
+
+        <p>
+            Categories are used when creating recipes.
+        </p>
+
+        <h3>Request</h3>
+
+        <pre>GET /categories</pre>
+
+        <p>
+            No request body is required.
+        </p>
+
+        <div class="result">
+            <strong>Expected result — 200:</strong>
+
+            <p>
+                Returns an array containing all categories.
+            </p>
+        </div>
+
+        <h3>Example Response</h3>
+
+        <pre>[
+  {
+    "id": 1,
+    "name": "Vegetarian"
+  },
+  {
+    "id": 2,
+    "name": "Vegan"
+  },
+  {
+    "id": 3,
+    "name": "Pescatarian"
+  }
+]</pre>
+
+        <div class="error">
+            <strong>Error example — 500:</strong>
+
+            <pre>{
+  "error": "Failed to get categories"
+}</pre>
+        </div>
+    </section>
+
+</body>
+
+</html>

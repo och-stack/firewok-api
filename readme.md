@@ -1,4 +1,3 @@
-To run the application open the terminal and write
+## API Base URL
 
-1. `npm i`
-2. `npm run dev`
+https://firewok-api-production.up.railway.app

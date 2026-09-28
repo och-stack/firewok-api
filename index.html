@@ -82,7 +82,7 @@
         </p>
 
         <div class="result">
-            <strong>Expected result:</strong>
+            <strong>Expected result — 200:</strong>
 
             <p>
                 Returns an array containing all recipes.
@@ -94,11 +94,19 @@
         <pre>[
   {
     "id": 1,
-    "name": "FireWok Vegetable Noodles",
-    "ingredients": "Noodles, broccoli, carrot, garlic",
-    "instructions": "Heat the wok, stir fry the garlic and vegetables, then add noodles and toss until cooked.",
-    "author": "Ong Chuu Harn",
+    "name": "Fried Rice",
+    "ingredients": "2 cups cooked rice, 2 eggs, 1 carrot, 2 spring onions, 2 cloves garlic, 1 tbsp soy sauce, 1 tbsp cooking oil, 1/2 tsp salt",
+    "instructions": "1. Heat the wok over medium-high heat and add the cooking oil. 2. Add garlic and carrot, then stir-fry for 1-2 minutes. 3. Push the vegetables to one side and crack in the eggs. Scramble until cooked. 4. Add the cooked rice and stir-fry everything together. 5. Add soy sauce and salt, then toss well. 6. Add spring onions and stir-fry for another minute. Serve hot.",
+    "author": "Jonathan",
     "category": "Vegetarian"
+  },
+  {
+    "id": 2,
+    "name": "Crispy Tofu with Vegetables",
+    "ingredients": "300g firm tofu, 1 cup broccoli, 1 carrot, 2 cloves garlic, 1 tbsp soy sauce, 1 tsp sesame oil, 1 tbsp cooking oil, 1/2 tsp salt",
+    "instructions": "1. Cut the tofu into small cubes and pat dry. 2. Heat the wok and add cooking oil. 3. Add the tofu and cook until golden and crispy on all sides. 4. Add garlic, broccoli and carrot, then stir-fry for 3-4 minutes. 5. Add soy sauce, sesame oil and salt. 6. Toss everything together and cook for another 1-2 minutes. Serve immediately.",
+    "author": "Amy Tan",
+    "category": "Vegan"
   }
 ]</pre>
 
@@ -129,21 +137,21 @@
         </p>
 
         <div class="result">
-            <strong>Expected result:</strong>
+            <strong>Expected result — 200:</strong>
 
             <p>
                 Returns one recipe object.
             </p>
         </div>
 
-        <h3>Example Response — 200</h3>
+        <h3>Example Response</h3>
 
         <pre>{
   "id": 1,
-  "name": "FireWok Vegetable Noodles",
-  "ingredients": "Noodles, broccoli, carrot, garlic",
-  "instructions": "Heat the wok, stir fry the garlic and vegetables, then add noodles and toss until cooked.",
-  "author": "Ong Chuu Harn",
+  "name": "Fried Rice",
+  "ingredients": "2 cups cooked rice, 2 eggs, 1 carrot, 2 spring onions, 2 cloves garlic, 1 tbsp soy sauce, 1 tbsp cooking oil, 1/2 tsp salt",
+  "instructions": "1. Heat the wok over medium-high heat and add the cooking oil. 2. Add garlic and carrot, then stir-fry for 1-2 minutes. 3. Push the vegetables to one side and crack in the eggs. Scramble until cooked. 4. Add the cooked rice and stir-fry everything together. 5. Add soy sauce and salt, then toss well. 6. Add spring onions and stir-fry for another minute. Serve hot.",
+  "author": "Jonathan",
   "category": "Vegetarian"
 }</pre>
 
@@ -192,11 +200,11 @@
         <h3>Request Body</h3>
 
         <pre>{
-  "name": "FireWok Fried Rice",
-  "ingredients": "Rice, egg, carrot, spring onion",
-  "author_id": 1,
-  "category_id": 1,
-  "instructions": "Heat the wok and fry all ingredients."
+  "name": "Chicken Teriyaki",
+  "ingredients": "2 chicken thighs, 3 tbsp soy sauce, 2 tbsp mirin, 1 tbsp honey, 2 cloves garlic, 1 tsp grated ginger, 1 tbsp cooking oil, 1 spring onion",
+  "author_id": 6,
+  "category_id": 6,
+  "instructions": "1. Mix soy sauce, mirin, honey, garlic and ginger to make the teriyaki sauce. 2. Heat the cooking oil in a pan and cook the chicken until golden brown. 3. Pour in the teriyaki sauce and simmer until the chicken is cooked through. 4. Turn the chicken to coat it evenly with the sauce. 5. Slice the chicken and garnish with spring onion."
 }</pre>
 
         <div class="result">
@@ -210,12 +218,12 @@
         <h3>Example Response</h3>
 
         <pre>{
-  "id": 4,
-  "name": "FireWok Fried Rice",
-  "ingredients": "Rice, egg, carrot, spring onion",
-  "author_id": 1,
-  "category_id": 1,
-  "instructions": "Heat the wok and fry all ingredients."
+  "id": 7,
+  "name": "Chicken Teriyaki",
+  "ingredients": "2 chicken thighs, 3 tbsp soy sauce, 2 tbsp mirin, 1 tbsp honey, 2 cloves garlic, 1 tsp grated ginger, 1 tbsp cooking oil, 1 spring onion",
+  "author_id": 6,
+  "category_id": 6,
+  "instructions": "1. Mix soy sauce, mirin, honey, garlic and ginger to make the teriyaki sauce. 2. Heat the cooking oil in a pan and cook the chicken until golden brown. 3. Pour in the teriyaki sauce and simmer until the chicken is cooked through. 4. Turn the chicken to coat it evenly with the sauce. 5. Slice the chicken and garnish with spring onion."
 }</pre>
 
         <div class="error">
@@ -224,7 +232,7 @@
             <pre>POST /recipes
 
 {
-  "name": "FireWok Fried Rice"
+  "name": "Chicken Teriyaki"
 }</pre>
 
             <pre>{
@@ -236,11 +244,11 @@
             <pre>POST /recipes
 
 {
-  "name": "FireWok Fried Rice",
-  "ingredients": "Rice, egg, carrot",
+  "name": "Chicken Teriyaki",
+  "ingredients": "Chicken, soy sauce, mirin",
   "author_id": 999,
   "category_id": 999,
-  "instructions": "Heat the wok and fry all ingredients."
+  "instructions": "Cook the chicken with the sauce."
 }</pre>
 
             <pre>{
@@ -289,13 +297,33 @@
         <pre>[
   {
     "id": 1,
-    "name": "Ong Chuu Harn",
-    "email": "chuu@example.com"
+    "name": "Jonathan",
+    "email": "johnathan@mail.com"
   },
   {
     "id": 2,
     "name": "Amy Tan",
-    "email": "amy@example.com"
+    "email": "amy@mail.com"
+  },
+  {
+    "id": 3,
+    "name": "Jason Lim",
+    "email": "jason@mail.com"
+  },
+  {
+    "id": 4,
+    "name": "Sarah Lee",
+    "email": "sarah@mail.com"
+  },
+  {
+    "id": 5,
+    "name": "Ariel",
+    "email": "ariel@mail.com"
+  },
+  {
+    "id": 6,
+    "name": "Candy",
+    "email": "candy@mail.com"
   }
 ]</pre>
 
@@ -328,8 +356,8 @@
         <h3>Request Body</h3>
 
         <pre>{
-  "name": "John",
-  "email": "john@example.com"
+  "name": "Sarah Lee",
+  "email": "sarah@mail.com"
 }</pre>
 
         <div class="result">
@@ -344,8 +372,8 @@
 
         <pre>{
   "id": 4,
-  "name": "John",
-  "email": "john@example.com"
+  "name": "Sarah Lee",
+  "email": "sarah@mail.com"
 }</pre>
 
         <div class="error">
@@ -354,7 +382,7 @@
             <pre>POST /users
 
 {
-  "name": "John"
+  "name": "Sarah Lee"
 }</pre>
 
             <pre>{
@@ -366,8 +394,8 @@
             <pre>POST /users
 
 {
-  "name": "John",
-  "email": "chuu@example.com"
+  "name": "Jonathan",
+  "email": "johnathan@mail.com"
 }</pre>
 
             <pre>{
@@ -425,6 +453,18 @@
   {
     "id": 3,
     "name": "Pescatarian"
+  },
+  {
+    "id": 4,
+    "name": "Low-Carb"
+  },
+  {
+    "id": 5,
+    "name": "Omnivore"
+  },
+  {
+    "id": 6,
+    "name": "Regular"
   }
 ]</pre>
 

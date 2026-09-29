@@ -2,299 +2,165 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>API Documentation</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-            color: #292929;
-            background: #f8f9fa;
-        }
-
-        h1 {
-            margin-bottom: 40px;
-        }
-
-        section {
-            background: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-
-        h2 {
-            margin-top: 0;
-        }
-
-        h3 {
-            margin-top: 25px;
-            margin-bottom: 8px;
-        }
-
-        p {
-            line-height: 1.6;
-        }
-
-        pre {
-            background: #212529;
-            color: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
-            overflow-x: auto;
-        }
-
-        .result {
-            margin-top: 20px;
-        }
-
-        .error {
-            margin-top: 20px;
-        }
-    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FireWok API Documentation</title>
 </head>
 
 <body>
 
     <h1>API Documentation</h1>
 
+    <hr />
 
-    <!-- GET ALL RECIPES -->
-    <section>
-        <h2>GET /recipes</h2>
+    <h2>GET /recipes</h2>
 
-        <p>
-            Get all recipes stored in the database.
-        </p>
+    <p><strong>Request:</strong></p>
+    <p>GET http://localhost:4000/recipes</p>
 
-        <h3>Request</h3>
+    <p><strong>Expected Result:</strong></p>
+    <p>Returns all recipes.</p>
 
-        <pre>GET /recipes</pre>
+    <p><strong>Example Response:</strong></p>
 
-        <p>
-            No request body is required.
-        </p>
-
-        <div class="result">
-            <strong>Expected result — 200:</strong>
-
-            <p>
-                Returns an array containing all recipes.
-            </p>
-        </div>
-
-        <h3>Example Response</h3>
-
-        <pre>[
+    <pre>
+[
   {
     "id": 1,
     "name": "Fried Rice",
-    "ingredients": "2 cups cooked rice, 2 eggs, 1 carrot, 2 spring onions, 2 cloves garlic, 1 tbsp soy sauce, 1 tbsp cooking oil, 1/2 tsp salt",
-    "instructions": "1. Heat the wok over medium-high heat and add the cooking oil. 2. Add garlic and carrot, then stir-fry for 1-2 minutes. 3. Push the vegetables to one side and crack in the eggs. Scramble until cooked. 4. Add the cooked rice and stir-fry everything together. 5. Add soy sauce and salt, then toss well. 6. Add spring onions and stir-fry for another minute. Serve hot.",
-    "author": "Jonathan",
-    "category": "Vegetarian"
-  },
-  {
-    "id": 2,
-    "name": "Crispy Tofu with Vegetables",
-    "ingredients": "300g firm tofu, 1 cup broccoli, 1 carrot, 2 cloves garlic, 1 tbsp soy sauce, 1 tsp sesame oil, 1 tbsp cooking oil, 1/2 tsp salt",
-    "instructions": "1. Cut the tofu into small cubes and pat dry. 2. Heat the wok and add cooking oil. 3. Add the tofu and cook until golden and crispy on all sides. 4. Add garlic, broccoli and carrot, then stir-fry for 3-4 minutes. 5. Add soy sauce, sesame oil and salt. 6. Toss everything together and cook for another 1-2 minutes. Serve immediately.",
-    "author": "Amy Tan",
-    "category": "Vegan"
+    "ingredients": "2 cups cooked rice, 2 eggs, 1 carrot",
+    "author_id": 1,
+    "category_id": 1,
+    "instructions": "1. Heat the wok. 2. Add the ingredients."
   }
-]</pre>
+]
+    </pre>
 
-        <div class="error">
-            <strong>Error example — 500:</strong>
+    <p><strong>Error Example:</strong></p>
+    <p>500 Internal Server Error - Database or server error.</p>
 
-            <pre>{
+    <pre>
+{
   "error": "Failed to get recipes"
-}</pre>
-        </div>
-    </section>
+}
+    </pre>
 
+    <hr />
 
-    <!-- GET ONE RECIPE -->
-    <section>
-        <h2>GET /recipes/:id</h2>
+    <h2>GET /recipes/:id</h2>
 
-        <p>
-            Get one recipe using its recipe ID.
-        </p>
+    <p><strong>Request:</strong></p>
+    <p>GET http://localhost:4000/recipes/1</p>
 
-        <h3>Request</h3>
+    <p><strong>Expected Result:</strong></p>
+    <p>Returns one recipe by ID.</p>
 
-        <pre>GET /recipes/1</pre>
+    <p><strong>Example Response:</strong></p>
 
-        <p>
-            Replace <strong>1</strong> with the ID of the recipe you want to retrieve.
-        </p>
-
-        <div class="result">
-            <strong>Expected result — 200:</strong>
-
-            <p>
-                Returns one recipe object.
-            </p>
-        </div>
-
-        <h3>Example Response</h3>
-
-        <pre>{
+    <pre>
+{
   "id": 1,
   "name": "Fried Rice",
-  "ingredients": "2 cups cooked rice, 2 eggs, 1 carrot, 2 spring onions, 2 cloves garlic, 1 tbsp soy sauce, 1 tbsp cooking oil, 1/2 tsp salt",
-  "instructions": "1. Heat the wok over medium-high heat and add the cooking oil. 2. Add garlic and carrot, then stir-fry for 1-2 minutes. 3. Push the vegetables to one side and crack in the eggs. Scramble until cooked. 4. Add the cooked rice and stir-fry everything together. 5. Add soy sauce and salt, then toss well. 6. Add spring onions and stir-fry for another minute. Serve hot.",
-  "author": "Jonathan",
-  "category": "Vegetarian"
-}</pre>
+  "ingredients": "2 cups cooked rice, 2 eggs, 1 carrot",
+  "author_id": 1,
+  "category_id": 1,
+  "instructions": "1. Heat the wok. 2. Add the ingredients."
+}
+    </pre>
 
-        <div class="error">
-            <strong>Error example — 400: Invalid ID</strong>
+    <p><strong>Error Example:</strong></p>
 
-            <pre>GET /recipes/abc</pre>
+    <p>404 Not Found - Recipe ID does not exist.</p>
 
-            <pre>{
-  "error": "Recipe ID must be a number"
-}</pre>
-
-            <strong>Error example — 404: Recipe not found</strong>
-
-            <pre>GET /recipes/99999</pre>
-
-            <pre>{
+    <pre>
+{
   "error": "Recipe not found"
-}</pre>
+}
+    </pre>
 
-            <strong>Error example — 500: Database error</strong>
+    <p>400 Bad Request - Recipe ID is not a number.</p>
 
-            <pre>{
-  "error": "Failed to get recipe"
-}</pre>
-        </div>
-    </section>
-
-
-    <!-- CREATE RECIPE -->
-    <section>
-        <h2>POST /recipes</h2>
-
-        <p>
-            Create a new recipe and store it in the database.
-        </p>
-
-        <p>
-            The author ID and category ID must already exist in the database.
-        </p>
-
-        <h3>Request</h3>
-
-        <pre>POST /recipes</pre>
-
-        <h3>Request Body</h3>
-
-        <pre>{
-  "name": "Chicken Teriyaki",
-  "ingredients": "2 chicken thighs, 3 tbsp soy sauce, 2 tbsp mirin, 1 tbsp honey, 2 cloves garlic, 1 tsp grated ginger, 1 tbsp cooking oil, 1 spring onion",
-  "author_id": 6,
-  "category_id": 6,
-  "instructions": "1. Mix soy sauce, mirin, honey, garlic and ginger to make the teriyaki sauce. 2. Heat the cooking oil in a pan and cook the chicken until golden brown. 3. Pour in the teriyaki sauce and simmer until the chicken is cooked through. 4. Turn the chicken to coat it evenly with the sauce. 5. Slice the chicken and garnish with spring onion."
-}</pre>
-
-        <div class="result">
-            <strong>Expected result — 201:</strong>
-
-            <p>
-                Returns the newly created recipe.
-            </p>
-        </div>
-
-        <h3>Example Response</h3>
-
-        <pre>{
-  "id": 7,
-  "name": "Chicken Teriyaki",
-  "ingredients": "2 chicken thighs, 3 tbsp soy sauce, 2 tbsp mirin, 1 tbsp honey, 2 cloves garlic, 1 tsp grated ginger, 1 tbsp cooking oil, 1 spring onion",
-  "author_id": 6,
-  "category_id": 6,
-  "instructions": "1. Mix soy sauce, mirin, honey, garlic and ginger to make the teriyaki sauce. 2. Heat the cooking oil in a pan and cook the chicken until golden brown. 3. Pour in the teriyaki sauce and simmer until the chicken is cooked through. 4. Turn the chicken to coat it evenly with the sauce. 5. Slice the chicken and garnish with spring onion."
-}</pre>
-
-        <div class="error">
-            <strong>Error example — 400: Missing fields</strong>
-
-            <pre>POST /recipes
-
+    <pre>
 {
-  "name": "Chicken Teriyaki"
-}</pre>
+  "error": "Recipe ID must be a number"
+}
+    </pre>
 
-            <pre>{
+    <hr />
+
+    <h2>POST /recipes</h2>
+
+    <p><strong>Request:</strong></p>
+    <p>POST http://localhost:4000/recipes</p>
+
+    <p><strong>Request Body:</strong></p>
+
+    <pre>
+{
+  "name": "Chicken Teriyaki",
+  "ingredients": "Chicken, soy sauce, sugar, garlic",
+  "author_id": 6,
+  "category_id": 6,
+  "instructions": "1. Cook the chicken. 2. Add the sauce."
+}
+    </pre>
+
+    <p><strong>Expected Result:</strong></p>
+    <p>Creates a new recipe and returns the created recipe.</p>
+
+    <p><strong>Example Response:</strong></p>
+
+    <pre>
+{
+  "id": 9,
+  "name": "Chicken Teriyaki",
+  "ingredients": "Chicken, soy sauce, sugar, garlic",
+  "author_id": 6,
+  "category_id": 6,
+  "instructions": "1. Cook the chicken. 2. Add the sauce."
+}
+    </pre>
+
+    <p><strong>Error Example:</strong></p>
+
+    <p>400 Bad Request - One or more required fields are missing.</p>
+
+    <pre>
+{
   "error": "All recipe fields are required"
-}</pre>
+}
+    </pre>
 
-            <strong>Error example — 400: Invalid foreign key</strong>
+    <p>400 Bad Request - The author or category ID does not exist.</p>
 
-            <pre>POST /recipes
-
+    <pre>
 {
-  "name": "Chicken Teriyaki",
-  "ingredients": "Chicken, soy sauce, mirin",
-  "author_id": 999,
-  "category_id": 999,
-  "instructions": "Cook the chicken with the sauce."
-}</pre>
-
-            <pre>{
   "error": "Author or category does not exist"
-}</pre>
+}
+    </pre>
 
-            <strong>Error example — 500: Database error</strong>
+    <p>500 Internal Server Error - Database or server error.</p>
 
-            <pre>{
+    <pre>
+{
   "error": "Failed to create recipe"
-}</pre>
-        </div>
-    </section>
+}
+    </pre>
 
+    <hr />
 
-    <!-- GET USERS -->
-    <section>
-        <h2>GET /users</h2>
+    <h2>GET /users</h2>
 
-        <p>
-            Get all users stored in the database.
-        </p>
+    <p><strong>Request:</strong></p>
+    <p>GET http://localhost:4000/users</p>
 
-        <p>
-            Users can be used as recipe authors.
-        </p>
+    <p><strong>Expected Result:</strong></p>
+    <p>Returns all users.</p>
 
-        <h3>Request</h3>
+    <p><strong>Example Response:</strong></p>
 
-        <pre>GET /users</pre>
-
-        <p>
-            No request body is required.
-        </p>
-
-        <div class="result">
-            <strong>Expected result — 200:</strong>
-
-            <p>
-                Returns an array containing all users.
-            </p>
-        </div>
-
-        <h3>Example Response</h3>
-
-        <pre>[
+    <pre>
+[
   {
     "id": 1,
     "name": "Jonathan",
@@ -304,144 +170,88 @@
     "id": 2,
     "name": "Amy Tan",
     "email": "amy@mail.com"
-  },
-  {
-    "id": 3,
-    "name": "Jason Lim",
-    "email": "jason@mail.com"
-  },
-  {
-    "id": 4,
-    "name": "Sarah Lee",
-    "email": "sarah@mail.com"
-  },
-  {
-    "id": 5,
-    "name": "Ariel",
-    "email": "ariel@mail.com"
-  },
-  {
-    "id": 6,
-    "name": "Candy",
-    "email": "candy@mail.com"
   }
-]</pre>
+]
+    </pre>
 
-        <div class="error">
-            <strong>Error example — 500:</strong>
+    <p><strong>Error Example:</strong></p>
+    <p>500 Internal Server Error - Database or server error.</p>
 
-            <pre>{
+    <pre>
+{
   "error": "Failed to get users"
-}</pre>
-        </div>
-    </section>
+}
+    </pre>
 
+    <hr />
 
-    <!-- CREATE USER -->
-    <section>
-        <h2>POST /users</h2>
+    <h2>POST /users</h2>
 
-        <p>
-            Create a new user.
-        </p>
+    <p><strong>Request:</strong></p>
+    <p>POST http://localhost:4000/users</p>
 
-        <p>
-            The user can then be used as an author when creating a recipe.
-        </p>
+    <p><strong>Request Body:</strong></p>
 
-        <h3>Request</h3>
-
-        <pre>POST /users</pre>
-
-        <h3>Request Body</h3>
-
-        <pre>{
-  "name": "Sarah Lee",
-  "email": "sarah@mail.com"
-}</pre>
-
-        <div class="result">
-            <strong>Expected result — 201:</strong>
-
-            <p>
-                Returns the newly created user.
-            </p>
-        </div>
-
-        <h3>Example Response</h3>
-
-        <pre>{
-  "id": 4,
-  "name": "Sarah Lee",
-  "email": "sarah@mail.com"
-}</pre>
-
-        <div class="error">
-            <strong>Error example — 400: Missing fields</strong>
-
-            <pre>POST /users
-
+    <pre>
 {
-  "name": "Sarah Lee"
-}</pre>
+  "name": "Michael Wong",
+  "email": "michael@mail.com"
+}
+    </pre>
 
-            <pre>{
+    <p><strong>Expected Result:</strong></p>
+    <p>Creates a new user and returns the created user.</p>
+
+    <p><strong>Example Response:</strong></p>
+
+    <pre>
+{
+  "id": 7,
+  "name": "Michael Wong",
+  "email": "michael@mail.com"
+}
+    </pre>
+
+    <p><strong>Error Example:</strong></p>
+
+    <p>400 Bad Request - Name or email is missing.</p>
+
+    <pre>
+{
   "error": "Name and email are required"
-}</pre>
+}
+    </pre>
 
-            <strong>Error example — 400: Duplicate email</strong>
+    <p>400 Bad Request - Email already exists.</p>
 
-            <pre>POST /users
-
+    <pre>
 {
-  "name": "Jonathan",
-  "email": "johnathan@mail.com"
-}</pre>
-
-            <pre>{
   "error": "Email already exists"
-}</pre>
+}
+    </pre>
 
-            <strong>Error example — 500: Database error</strong>
+    <p>500 Internal Server Error - Database or server error.</p>
 
-            <pre>{
+    <pre>
+{
   "error": "Failed to create user"
-}</pre>
-        </div>
-    </section>
+}
+    </pre>
 
+    <hr />
 
-    <!-- GET CATEGORIES -->
-    <section>
-        <h2>GET /categories</h2>
+    <h2>GET /categories</h2>
 
-        <p>
-            Get all recipe categories stored in the database.
-        </p>
+    <p><strong>Request:</strong></p>
+    <p>GET http://localhost:4000/categories</p>
 
-        <p>
-            Categories are used when creating recipes.
-        </p>
+    <p><strong>Expected Result:</strong></p>
+    <p>Returns all recipe categories.</p>
 
-        <h3>Request</h3>
+    <p><strong>Example Response:</strong></p>
 
-        <pre>GET /categories</pre>
-
-        <p>
-            No request body is required.
-        </p>
-
-        <div class="result">
-            <strong>Expected result — 200:</strong>
-
-            <p>
-                Returns an array containing all categories.
-            </p>
-        </div>
-
-        <h3>Example Response</h3>
-
-        <pre>[
+    <pre>
+[
   {
     "id": 1,
     "name": "Vegetarian"
@@ -466,16 +276,17 @@
     "id": 6,
     "name": "Regular"
   }
-]</pre>
+]
+    </pre>
 
-        <div class="error">
-            <strong>Error example — 500:</strong>
+    <p><strong>Error Example:</strong></p>
+    <p>500 Internal Server Error - Database or server error.</p>
 
-            <pre>{
+    <pre>
+{
   "error": "Failed to get categories"
-}</pre>
-        </div>
-    </section>
+}
+    </pre>
 
 </body>
 

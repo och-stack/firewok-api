@@ -19,7 +19,7 @@ const pool = new Pool({
 });
 
 // Test database connection
-pool.query("SELECT NOW()", (error, result) => {
+pool.query("SELECT NOW()", (error) => {
   if (error) {
     console.log("Database connection failed");
   } else {
@@ -36,19 +36,8 @@ app.get("/", (req, res) => {
 app.get("/recipes", async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT
-        recipes.id,
-        recipes.name,
-        recipes.ingredients,
-        recipes.instructions,
-        users.name AS author,
-        categories.name AS category
-      FROM recipes
-      JOIN users
-        ON recipes.author_id = users.id
-      JOIN categories
-        ON recipes.category_id = categories.id
-      ORDER BY recipes.id;
+      SELECT * FROM recipes
+      ORDER BY id;
     `);
 
     res.json(result.rows);
@@ -71,21 +60,7 @@ app.get("/recipes/:id", async (req, res) => {
     }
 
     const result = await pool.query(
-      `
-      SELECT
-        recipes.id,
-        recipes.name,
-        recipes.ingredients,
-        recipes.instructions,
-        users.name AS author,
-        categories.name AS category
-      FROM recipes
-      JOIN users
-        ON recipes.author_id = users.id
-      JOIN categories
-        ON recipes.category_id = categories.id
-      WHERE recipes.id = $1;
-      `,
+      "SELECT * FROM recipes WHERE id = $1",
       [id]
     );
 
@@ -144,7 +119,6 @@ app.post("/recipes", async (req, res) => {
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
-    // Foreign key error
     if (error.code === "23503") {
       return res.status(400).json({
         error: "Author or category does not exist",
@@ -195,7 +169,6 @@ app.post("/users", async (req, res) => {
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
-    // Duplicate email error
     if (error.code === "23505") {
       return res.status(400).json({
         error: "Email already exists",

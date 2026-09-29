@@ -11,6 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+// Database
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -18,7 +19,6 @@ const pool = new Pool({
   },
 });
 
-// Test database connection
 pool.query("SELECT NOW()", (error) => {
   if (error) {
     console.log("Database connection failed");
@@ -27,28 +27,41 @@ pool.query("SELECT NOW()", (error) => {
   }
 });
 
-// API documentation
+// API docs
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// GET all recipes
+// Get recipes
 app.get("/recipes", async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT * FROM recipes
-      ORDER BY id;
+      SELECT
+        recipes.id,
+        recipes.name,
+        recipes.ingredients,
+        recipes.instructions,
+        users.name AS author,
+        categories.name AS category
+      FROM recipes
+      JOIN users
+        ON recipes.author_id = users.id
+      JOIN categories
+        ON recipes.category_id = categories.id
+      ORDER BY recipes.id;
     `);
 
     res.json(result.rows);
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       error: "Failed to get recipes",
     });
   }
 });
 
-// GET one recipe
+// Get recipe
 app.get("/recipes/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -60,7 +73,21 @@ app.get("/recipes/:id", async (req, res) => {
     }
 
     const result = await pool.query(
-      "SELECT * FROM recipes WHERE id = $1",
+      `
+      SELECT
+        recipes.id,
+        recipes.name,
+        recipes.ingredients,
+        recipes.instructions,
+        users.name AS author,
+        categories.name AS category
+      FROM recipes
+      JOIN users
+        ON recipes.author_id = users.id
+      JOIN categories
+        ON recipes.category_id = categories.id
+      WHERE recipes.id = $1
+      `,
       [id]
     );
 
@@ -72,13 +99,15 @@ app.get("/recipes/:id", async (req, res) => {
 
     res.json(result.rows[0]);
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       error: "Failed to get recipe",
     });
   }
 });
 
-// POST new recipe
+// Create recipe
 app.post("/recipes", async (req, res) => {
   try {
     const {
@@ -119,6 +148,8 @@ app.post("/recipes", async (req, res) => {
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
+    console.log(error);
+
     if (error.code === "23503") {
       return res.status(400).json({
         error: "Author or category does not exist",
@@ -131,23 +162,26 @@ app.post("/recipes", async (req, res) => {
   }
 });
 
-// GET all users
+// Get users
 app.get("/users", async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT * FROM users
+      SELECT *
+      FROM users
       ORDER BY id;
     `);
 
     res.json(result.rows);
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       error: "Failed to get users",
     });
   }
 });
 
-// POST new user
+// Create user
 app.post("/users", async (req, res) => {
   try {
     const { name, email } = req.body;
@@ -160,7 +194,8 @@ app.post("/users", async (req, res) => {
 
     const result = await pool.query(
       `
-      INSERT INTO users (name, email)
+      INSERT INTO users
+      (name, email)
       VALUES ($1, $2)
       RETURNING *;
       `,
@@ -169,6 +204,8 @@ app.post("/users", async (req, res) => {
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
+    console.log(error);
+
     if (error.code === "23505") {
       return res.status(400).json({
         error: "Email already exists",
@@ -181,16 +218,19 @@ app.post("/users", async (req, res) => {
   }
 });
 
-// GET all categories
+// Get categories
 app.get("/categories", async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT * FROM categories
+      SELECT *
+      FROM categories
       ORDER BY id;
     `);
 
     res.json(result.rows);
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       error: "Failed to get categories",
     });

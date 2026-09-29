@@ -19,228 +19,258 @@
 
   <hr>
 
+  <!-- GET RECIPES -->
+
   <h2>GET /recipes</h2>
 
   <p><strong>Request:</strong></p>
+
   <p>GET http://localhost:4000/recipes</p>
+
   <p>GET https://firewok-api-production.up.railway.app/recipes</p>
 
   <p><strong>Expected Result:</strong></p>
-  <p>Returns all recipes.</p>
+
+  <p>Returns all recipes with author and category names.</p>
 
   <p><strong>Example Response:</strong></p>
 
   <pre>[
-    {
-        "id": 1,
-        "name": "Fried Rice",
-        "ingredients": "2 cups cooked rice, 2 eggs, 1 carrot",
-        "author_id": 1,
-        "category_id": 1,
-        "instructions": "1. Heat the wok. 2. Add the ingredients."
-    }
+  {
+    "id": 1,
+    "name": "Fried Rice",
+    "ingredients": "2 cups cooked rice, 2 eggs, 1 carrot",
+    "instructions": "1. Heat the wok. 2. Add the ingredients.",
+    "author": "Jonathan",
+    "category": "Vegetarian"
+  }
 ]</pre>
 
   <p><strong>Error Example:</strong></p>
 
   <pre>{
-    "error": "Failed to get recipes"
+  "error": "Failed to get recipes"
 }</pre>
 
   <hr>
 
+  <!-- GET ONE RECIPE -->
+
   <h2>GET /recipes/:id</h2>
 
   <p><strong>Request:</strong></p>
+
   <p>GET http://localhost:4000/recipes/1</p>
+
   <p>GET https://firewok-api-production.up.railway.app/recipes/1</p>
 
   <p><strong>Expected Result:</strong></p>
-  <p>Returns one recipe by ID.</p>
+
+  <p>Returns one recipe by ID with author and category names.</p>
 
   <p><strong>Example Response:</strong></p>
 
   <pre>{
-    "id": 1,
-    "name": "Fried Rice",
-    "ingredients": "2 cups cooked rice, 2 eggs, 1 carrot",
-    "author_id": 1,
-    "category_id": 1,
-    "instructions": "1. Heat the wok. 2. Add the ingredients."
+  "id": 1,
+  "name": "Fried Rice",
+  "ingredients": "2 cups cooked rice, 2 eggs, 1 carrot",
+  "instructions": "1. Heat the wok. 2. Add the ingredients.",
+  "author": "Jonathan",
+  "category": "Vegetarian"
 }</pre>
 
   <p><strong>Error Examples:</strong></p>
 
   <pre>{
-    "error": "Recipe not found"
+  "error": "Recipe not found"
 }</pre>
 
   <pre>{
-    "error": "Recipe ID must be a number"
+  "error": "Recipe ID must be a number"
 }</pre>
 
   <hr>
 
+  <!-- POST RECIPES -->
+
   <h2>POST /recipes</h2>
 
   <p><strong>Request:</strong></p>
+
   <p>POST http://localhost:4000/recipes</p>
+
   <p>POST https://firewok-api-production.up.railway.app/recipes</p>
 
   <p><strong>Request Body:</strong></p>
 
   <pre>{
-    "name": "Chicken Teriyaki",
-    "ingredients": "Chicken, soy sauce, sugar, garlic",
-    "author_id": 6,
-    "category_id": 6,
-    "instructions": "1. Cook the chicken. 2. Add the sauce."
+  "name": "Chicken Teriyaki",
+  "ingredients": "Chicken, soy sauce, sugar, garlic",
+  "author_id": 6,
+  "category_id": 6,
+  "instructions": "1. Cook the chicken. 2. Add the sauce."
 }</pre>
 
   <p><strong>Expected Result:</strong></p>
+
   <p>Creates a new recipe and returns the created recipe.</p>
 
   <p><strong>Example Response:</strong></p>
 
   <pre>{
-    "id": 9,
-    "name": "Chicken Teriyaki",
-    "ingredients": "Chicken, soy sauce, sugar, garlic",
-    "author_id": 6,
-    "category_id": 6,
-    "instructions": "1. Cook the chicken. 2. Add the sauce."
+  "id": 9,
+  "name": "Chicken Teriyaki",
+  "ingredients": "Chicken, soy sauce, sugar, garlic",
+  "author_id": 6,
+  "category_id": 6,
+  "instructions": "1. Cook the chicken. 2. Add the sauce."
 }</pre>
 
   <p><strong>Error Examples:</strong></p>
 
   <pre>{
-    "error": "All recipe fields are required"
+  "error": "All recipe fields are required"
 }</pre>
 
   <pre>{
-    "error": "Author or category does not exist"
+  "error": "Author or category does not exist"
 }</pre>
 
   <pre>{
-    "error": "Failed to create recipe"
+  "error": "Failed to create recipe"
 }</pre>
 
   <hr>
 
+  <!-- GET USERS -->
+
   <h2>GET /users</h2>
 
   <p><strong>Request:</strong></p>
+
   <p>GET http://localhost:4000/users</p>
+
   <p>GET https://firewok-api-production.up.railway.app/users</p>
 
   <p><strong>Expected Result:</strong></p>
+
   <p>Returns all users.</p>
 
   <p><strong>Example Response:</strong></p>
 
   <pre>[
-    {
-        "id": 1,
-        "name": "Jonathan",
-        "email": "johnathan@mail.com"
-    },
-    {
-        "id": 2,
-        "name": "Amy Tan",
-        "email": "amy@mail.com"
-    }
+  {
+    "id": 1,
+    "name": "Jonathan",
+    "email": "johnathan@mail.com"
+  },
+  {
+    "id": 2,
+    "name": "Amy Tan",
+    "email": "amy@mail.com"
+  }
 ]</pre>
 
   <p><strong>Error Example:</strong></p>
 
   <pre>{
-    "error": "Failed to get users"
+  "error": "Failed to get users"
 }</pre>
 
   <hr>
 
+  <!-- POST USERS -->
+
   <h2>POST /users</h2>
 
   <p><strong>Request:</strong></p>
+
   <p>POST http://localhost:4000/users</p>
+
   <p>POST https://firewok-api-production.up.railway.app/users</p>
 
   <p><strong>Request Body:</strong></p>
 
   <pre>{
-    "name": "Michael Wong",
-    "email": "michael@mail.com"
+  "name": "Michael Wong",
+  "email": "michael@mail.com"
 }</pre>
 
   <p><strong>Expected Result:</strong></p>
+
   <p>Creates a new user and returns the created user.</p>
 
   <p><strong>Example Response:</strong></p>
 
   <pre>{
-    "id": 7,
-    "name": "Michael Wong",
-    "email": "michael@mail.com"
+  "id": 7,
+  "name": "Michael Wong",
+  "email": "michael@mail.com"
 }</pre>
 
   <p><strong>Error Examples:</strong></p>
 
   <pre>{
-    "error": "Name and email are required"
+  "error": "Name and email are required"
 }</pre>
 
   <pre>{
-    "error": "Email already exists"
+  "error": "Email already exists"
 }</pre>
 
   <pre>{
-    "error": "Failed to create user"
+  "error": "Failed to create user"
 }</pre>
 
   <hr>
 
+  <!-- GET CATEGORIES -->
+
   <h2>GET /categories</h2>
 
   <p><strong>Request:</strong></p>
+
   <p>GET http://localhost:4000/categories</p>
+
   <p>GET https://firewok-api-production.up.railway.app/categories</p>
 
   <p><strong>Expected Result:</strong></p>
+
   <p>Returns all recipe categories.</p>
 
   <p><strong>Example Response:</strong></p>
 
   <pre>[
-    {
-        "id": 1,
-        "name": "Vegetarian"
-    },
-    {
-        "id": 2,
-        "name": "Vegan"
-    },
-    {
-        "id": 3,
-        "name": "Pescatarian"
-    },
-    {
-        "id": 4,
-        "name": "Low-Carb"
-    },
-    {
-        "id": 5,
-        "name": "Omnivore"
-    },
-    {
-        "id": 6,
-        "name": "Regular"
-    }
+  {
+    "id": 1,
+    "name": "Vegetarian"
+  },
+  {
+    "id": 2,
+    "name": "Vegan"
+  },
+  {
+    "id": 3,
+    "name": "Pescatarian"
+  },
+  {
+    "id": 4,
+    "name": "Low-Carb"
+  },
+  {
+    "id": 5,
+    "name": "Omnivore"
+  },
+  {
+    "id": 6,
+    "name": "Regular"
+  }
 ]</pre>
 
   <p><strong>Error Example:</strong></p>
 
   <pre>{
-    "error": "Failed to get categories"
+  "error": "Failed to get categories"
 }</pre>
 
 </body>
